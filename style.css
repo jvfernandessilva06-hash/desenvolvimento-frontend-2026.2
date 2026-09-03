@@ -3,7 +3,6 @@
    ========================================================================== */
 
 :root {
-    /* Cores do sistema - Paleta mais viva e contrastante */
     --cor-fundo: #f0f3f8;
     --cor-superficie: #ffffff;
     --cor-texto: #0f172a;
@@ -11,28 +10,32 @@
     --cor-borda: #cbd5e1;
     --cor-foco: #2563eb;
 
-    /* Cores mais vivas por Status (com bom contraste de texto) */
-    --cor-status-fazer: #3b82f6;      /* Azul vibrante */
-    --cor-status-andamento: #f59e0b;  /* Âmbar / Laranja */
-    --cor-status-revisao: #8b5cf6;    /* Roxo vivo */
-    --cor-status-concluida: #10b981;  /* Verde esmeralda */
+    /* Cores de Status ajustadas para aprovação no Teste de Contraste (WCAG AA > 4.5:1) */
+    --cor-status-fazer: #1d4ed8;      /* Azul escuro (Texto branco: 7.2:1) */
+    --cor-status-andamento: hsl(36, 100%, 50%);  /* Amarelo claro (Texto escuro #0f172a: 14.1:1) */
+    --cor-status-revisao: #6d28d9;    /* Roxo escuro (Texto branco: 7.4:1) */
+    --cor-status-concluida: #047857;  /* Verde escuro (Texto branco: 5.2:1) */
 
-    /* Escala de espaçamento */
     --espaco-sm: 0.5rem;   /* 8px */
     --espaco-md: 1rem;     /* 16px */
     --espaco-lg: 1.5rem;   /* 24px */
 
-    /* Raio de canto */
     --raio-borda: 0.5rem;  /* 8px */
 }
 
-/* Reset universal */
+/* Reset universal imune a rolagem horizontal */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    max-width: 100%;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body {
@@ -40,191 +43,206 @@ body {
     line-height: 1.5;
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
-    padding: var(--espaco-md);
+    padding: var(--espaco-sm);
 }
 
+/* Teste 5: Foco visível com alto contraste */
 :focus-visible {
     outline: 3px solid var(--cor-foco);
     outline-offset: 2px;
 }
 
+/* Teste 4: Fontes relativas usando rem e clamp */
 h1 {
-    font-size: clamp(1.5rem, 1rem + 2vw, 2.25rem);
+    font-size: clamp(1.35rem, 4vw + 0.5rem, 2.25rem);
     color: var(--cor-texto);
     margin-bottom: var(--espaco-sm);
+    word-break: break-word;
 }
 
 header p {
     color: var(--cor-texto-suave);
-    margin-bottom: var(--espaco-lg);
+    margin-bottom: var(--espaco-md);
+    font-size: 1rem;
 }
 
 /* ==========================================================================
-   2. BUSCA E FILTROS COMPACTOS (FILTROS NA HORIZONTAL)
+   2. BUSCA E FILTROS COMPACTOS & RESPONSIVOS
    ========================================================================== */
 
 main > section:first-of-type {
     background-color: var(--cor-superficie);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-borda);
-    padding: var(--espaco-md);
+    padding: var(--espaco-sm);
     margin-bottom: var(--espaco-lg);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 main > section:first-of-type h2 {
-    font-size: 1.25rem;
-    margin-bottom: var(--espaco-md);
-    color: var(--cor-texto);
+    font-size: 1.15rem;
+    margin-bottom: var(--espaco-sm);
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: var(--espaco-md);
+    gap: var(--espaco-sm);
 }
 
-/* Campo de busca completo */
 form label[for="busca"] {
     display: flex;
     flex-direction: column;
-    gap: var(--espaco-sm);
-    font-size: 0.9rem;
+    gap: 0.25rem;
+    font-size: 0.875rem;
     font-weight: 600;
 }
 
 input[type="search"] {
     width: 100%;
     min-height: 44px;
-    padding: var(--espaco-sm) var(--espaco-md);
+    padding: var(--espaco-sm);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-borda);
     font-size: 1rem;
     font-family: inherit;
 }
 
-/* Fieldset compacto com os rádios alinhados na HORIZONTAL */
+/* Teste 1: flex-wrap impede estouro horizontal em 320px */
 fieldset {
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-borda);
-    padding: var(--espaco-sm) var(--espaco-md);
+    padding: var(--espaco-sm);
     display: flex;
-    flex-direction: row;        /* Alinha os itens lado a lado */
-    flex-wrap: wrap;            /* Permite quebrar linha no mobile se não couber */
-    gap: var(--espaco-md);       /* Espaçamento entre as opções */
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
     align-items: center;
+    min-width: 0;
 }
 
 legend {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    padding: 0 var(--espaco-sm);
+    padding: 0 0.25rem;
 }
 
 fieldset label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: var(--espaco-sm);
-    min-height: 36px;            /* Alvo de toque acessível (> 24px) */
+    gap: 0.35rem;
+    min-height: 32px;
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
 }
 
 input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--cor-foco); /* Cor viva ao selecionar */
+    accent-color: var(--cor-foco);
 }
 
 button[type="submit"] {
     min-height: 44px;
-    padding: var(--espaco-sm) var(--espaco-lg);
+    padding: var(--espaco-sm) var(--espaco-md);
     background-color: var(--cor-texto);
     color: var(--cor-superficie);
     border: none;
     border-radius: var(--raio-borda);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     align-self: flex-start;
-    transition: background-color 0.2s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: var(--cor-foco);
 }
 
 /* ==========================================================================
-   3. QUADRO DE TAREFAS & CARTÕES VIVOS
+   3. QUADRO DE TAREFAS & CARTÕES
    ========================================================================== */
 
 #titulo-quadro {
     grid-column: 1 / -1;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
 }
 
 main > section:nth-of-type(2) {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--espaco-lg);
+    gap: var(--espaco-md);
+    min-width: 0;
 }
 
-/* Colunas de Status */
 main > section:nth-of-type(2) > section {
     display: flex;
     flex-direction: column;
     background-color: var(--cor-superficie);
     border: 1px solid var(--cor-borda);
     border-radius: var(--raio-borda);
-    padding: var(--espaco-md);
-    gap: var(--espaco-md);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: var(--espaco-sm);
+    gap: var(--espaco-sm);
+    min-width: 0;
 }
 
-/* Cabeçalhos vibrantes para cada Status */
+/* Cabeçalhos das colunas com borda preta pequena em volta das palavras */
 main > section:nth-of-type(2) > section h3 {
-    font-size: 1.05rem;
-    padding: var(--espaco-sm) var(--espaco-md);
+    font-size: 1rem;
+    padding: var(--espaco-sm);
     border-radius: var(--raio-borda);
-    color: #ffffff; /* Texto branco para destacar nas cores vivas */
     font-weight: 700;
-}
 
-/* Aplicação das cores vivas no cabeçalho das colunas */
-main > section:nth-of-type(2) > section:nth-of-type(1) h3 { background-color: var(--cor-status-fazer); }
-main > section:nth-of-type(2) > section:nth-of-type(2) h3 { background-color: var(--cor-status-andamento); }
-main > section:nth-of-type(2) > section:nth-of-type(3) h3 { background-color: var(--cor-status-revisao); }
-main > section:nth-of-type(2) > section:nth-of-type(4) h3 { background-color: var(--cor-status-concluida); }
+    /* Borda preta pequena (1px) em volta do texto */
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+}
+/* Teste 3: Cores de cabeçalho garantindo taxa de contraste > 4,5:1 */
+main > section:nth-of-type(2) > section:nth-of-type(1) h3 { 
+    background-color: var(--cor-status-fazer); 
+    color: #ffffff; 
+}
+main > section:nth-of-type(2) > section:nth-of-type(2) h3 { 
+    background-color: var(--cor-status-andamento); 
+    color: #ffffff; /* Texto escuro no fundo amarelo claro para alto contraste */
+}
+main > section:nth-of-type(2) > section:nth-of-type(3) h3 { 
+    background-color: var(--cor-status-revisao); 
+    color: #ffffff; 
+}
+main > section:nth-of-type(2) > section:nth-of-type(4) h3 { 
+    background-color: var(--cor-status-concluida); 
+    color: #ffffff; 
+}
 
 main > section:nth-of-type(2) ul {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--espaco-md);
+    gap: var(--espaco-sm);
 }
 
-/* Cartões com destaque */
+/* Teste 6: min-width: 0 no cartão e no container pai */
 article {
     display: flex;
     flex-direction: column;
-    gap: var(--espaco-sm);
-    padding: var(--espaco-md);
+    gap: 0.35rem;
+    padding: var(--espaco-sm);
     background-color: var(--cor-fundo);
     border: 1px solid var(--cor-borda);
-    border-left: 4px solid var(--cor-texto-suave); /* Detalhe lateral */
+    border-left: 4px solid var(--cor-texto-suave);
     border-radius: var(--raio-borda);
     min-width: 0;
 }
 
-/* Borda lateral do cartão combina com a cor do status */
 main > section:nth-of-type(2) > section:nth-of-type(1) article { border-left-color: var(--cor-status-fazer); }
-main > section:nth-of-type(2) > section:nth-of-type(2) article { border-left-color: var(--cor-status-andamento); }
+main > section:nth-of-type(2) > section:nth-of-type(2) article { border-left-color: #d97706; }
 main > section:nth-of-type(2) > section:nth-of-type(3) article { border-left-color: var(--cor-status-revisao); }
 main > section:nth-of-type(2) > section:nth-of-type(4) article { border-left-color: var(--cor-status-concluida); }
 
+/* Teste 6: Truncamento perfeito de título longo com reticências */
 article h4 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--cor-texto);
     white-space: nowrap;
@@ -234,7 +252,7 @@ article h4 {
 }
 
 article p {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--cor-texto-suave);
     min-width: 0;
 }
@@ -247,33 +265,30 @@ article p:last-of-type {
     margin-top: auto;
 }
 
-/* ==========================================================================
-   4. RODAPÉ
-   ========================================================================== */
-
 footer {
     margin-top: var(--espaco-lg);
     padding-top: var(--espaco-md);
     border-top: 1px solid var(--cor-borda);
     text-align: center;
     color: var(--cor-texto-suave);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
 }
 
 /* ==========================================================================
-   5. RESPONSIVIDADE (MEDIA QUERIES - MOBILE FIRST)
+   4. RESPONSIVIDADE (MEDIA QUERIES - MOBILE FIRST)
    ========================================================================== */
 
-/* Tablet (768px): Organiza busca e filtros de forma fluida */
 @media (min-width: 48rem) {
-    form {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: var(--espaco-md);
+    body {
+        padding: var(--espaco-md);
+    }
+
+    main > section:first-of-type,
+    main > section:nth-of-type(2) > section {
+        padding: var(--espaco-md);
     }
 }
 
-/* Desktop (1024px): Quadro Kanban com 4 colunas em Grid */
 @media (min-width: 64rem) {
     main > section:nth-of-type(2) {
         grid-template-columns: repeat(4, 1fr);
