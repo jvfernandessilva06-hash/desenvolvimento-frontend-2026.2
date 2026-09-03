@@ -1,3 +1,7 @@
+/* ==========================================================================
+   1. SISTEMA DE DESIGN MÍNIMO & RESET (MOBILE-FIRST)
+   ========================================================================== */
+
 :root {
     /* Cores de superfície, texto e borda */
     --cor-fundo: #f4f6f8;
@@ -40,7 +44,7 @@ body {
     padding: var(--espaco-md);
 }
 
-/* Foco visível acessível para todos os elementos focáveis (Requisito mínimo) */
+/* Foco visível acessível para todos os elementos focáveis */
 :focus-visible {
     outline: 3px solid var(--cor-foco);
     outline-offset: 2px;
@@ -56,4 +60,225 @@ h1 {
 header p {
     color: var(--cor-texto-suave);
     margin-bottom: var(--espaco-lg);
+}
+
+/* ==========================================================================
+   2. REGIÃO DE BUSCA E FILTROS (FLEXBOX)
+   ========================================================================== */
+
+main > section:first-of-type {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: var(--espaco-md);
+    margin-bottom: var(--espaco-lg);
+}
+
+main > section:first-of-type h2 {
+    font-size: 1.25rem;
+    margin-bottom: var(--espaco-md);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-md);
+}
+
+form label {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+input[type="search"] {
+    width: 100%;
+    min-height: 44px;
+    padding: var(--espaco-sm) var(--espaco-md);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    font-size: 1rem;
+    font-family: inherit;
+    margin-top: var(--espaco-sm);
+}
+
+fieldset {
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: var(--espaco-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-sm);
+}
+
+legend {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0 var(--espaco-sm);
+}
+
+fieldset label {
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-sm);
+    min-height: 32px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+}
+
+button[type="submit"] {
+    min-height: 44px;
+    padding: var(--espaco-sm) var(--espaco-lg);
+    background-color: var(--cor-texto);
+    color: var(--cor-superficie);
+    border: none;
+    border-radius: var(--raio-borda);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   3. QUADRO DE TAREFAS & CARTÕES (GRID, FLEXBOX & TRUNCAMENTO)
+   ========================================================================== */
+
+/* A seção pai do Quadro ativa o Grid */
+main > section:nth-of-type(2) {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-first: 1 coluna */
+    gap: var(--espaco-lg);
+}
+
+/* O título 'Quadro de Tarefas' ocupa toda a largura da grade */
+#titulo-quadro {
+    grid-column: 1 / -1;
+    font-size: 1.5rem;
+}
+
+/* As 4 colunas de status (seções filhas) usam Flexbox vertical */
+main > section:nth-of-type(2) > section {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    padding: var(--espaco-md);
+    gap: var(--espaco-md);
+}
+
+/* Título de cada coluna de status */
+main > section:nth-of-type(2) > section h3 {
+    font-size: 1.1rem;
+    padding: var(--espaco-sm) var(--espaco-md);
+    border-radius: var(--raio-borda);
+}
+
+/* Cores por Status (propriedades personalizadas do :root) */
+main > section:nth-of-type(2) > section:nth-of-type(1) h3 { background-color: var(--cor-status-fazer); }
+main > section:nth-of-type(2) > section:nth-of-type(2) h3 { background-color: var(--cor-status-andamento); }
+main > section:nth-of-type(2) > section:nth-of-type(3) h3 { background-color: var(--cor-status-revisao); }
+main > section:nth-of-type(2) > section:nth-of-type(4) h3 { background-color: var(--cor-status-concluida); }
+
+/* Pilha de cartões */
+main > section:nth-of-type(2) ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-md);
+}
+
+/* Cartão de tarefa (<article>) */
+article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-sm);
+    padding: var(--espaco-md);
+    background-color: var(--cor-fundo);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    min-width: 0; /* Impede estouro de layout */
+}
+
+/* Truncamento do título do cartão */
+article h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cor-texto);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+article p {
+    font-size: 0.875rem;
+    color: var(--cor-texto-suave);
+    min-width: 0;
+}
+
+article p strong {
+    color: var(--cor-texto);
+}
+
+/* Prazo na base do cartão */
+article p:has(time),
+article p:last-of-type {
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   4. RODAPÉ
+   ========================================================================== */
+
+footer {
+    margin-top: var(--espaco-lg);
+    padding-top: var(--espaco-md);
+    border-top: 1px solid var(--cor-borda);
+    text-align: center;
+    color: var(--cor-texto-suave);
+    font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   5. RESPONSIVIDADE (MEDIA QUERIES - MOBILE FIRST)
+   ========================================================================== */
+
+/* 
+ * Ponto de quebra: 768px (Tablets)
+ * Justificativa: Em telas médias, alinha o formulário de filtros para otimizar espaço vertical.
+ */
+@media (min-width: 48rem) {
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: end;
+    }
+
+    form > label:first-of-type {
+        grid-column: 1 / -1;
+    }
+
+    button[type="submit"] {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+}
+
+/* 
+ * Ponto de quebra: 1024px (Desktops)
+ * Justificativa: Distribui as 4 colunas de status lado a lado na visão de Quadro Kanban.
+ */
+@media (min-width: 64rem) {
+    main > section:nth-of-type(2) {
+        grid-template-columns: repeat(4, 1fr);
+        align-items: start;
+    }
 }
