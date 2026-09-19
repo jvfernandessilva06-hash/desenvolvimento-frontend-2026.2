@@ -15,15 +15,30 @@ export function renderizarEstado(estado, dados) {
       regiaoStatus.textContent = "Carregando tarefas...";
       break;
 
-    case "sucesso":
+    case "sucesso": {
+      const tarefasVisiveis = dados.tarefasVisiveis;
+      const totalTarefas = dados.totalTarefas;
+
       quadro.hidden = false;
-      renderizarTarefas(dados, quadro);
-      regiaoStatus.textContent = `${dados.length} tarefas carregadas.`;
+
+      renderizarTarefas(tarefasVisiveis, quadro);
+
+      regiaoStatus.textContent = `${tarefasVisiveis.length} de ${totalTarefas} tarefas.`;
+      break;
+    }
+
+    case "origem-vazia":
+      quadro.hidden = true;
+      regiaoStatus.textContent = "Nenhuma tarefa disponível.";
       break;
 
-    case "vazio":
-      quadro.hidden = true;
-      regiaoStatus.textContent = "Nenhuma tarefa encontrada.";
+    case "resultado-vazio":
+      quadro.hidden = false;
+
+      renderizarTarefas([], quadro);
+
+      regiaoStatus.textContent =
+        "Nenhuma tarefa corresponde aos critérios. Altere ou limpe os filtros.";
       break;
 
     case "erro":
