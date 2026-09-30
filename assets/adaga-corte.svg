@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 24" fill="none">
+  <defs>
+    <linearGradient id="blade" x1="30" y1="7" x2="30" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#edf7ff"/><stop offset=".45" stop-color="#9bb5c8"/><stop offset=".5" stop-color="#e2eff7"/><stop offset="1" stop-color="#536b7d"/></linearGradient>
+    <linearGradient id="trail"><stop stop-color="#b2d0e5" stop-opacity="0"/><stop offset="1" stop-color="#b2d0e5" stop-opacity=".6"/></linearGradient>
+  </defs>
+  <path d="M0 12h40" stroke="url(#trail)" stroke-width="1"/>
+  <path d="m36 7 58 5-58 5-6-5Z" fill="url(#blade)"/>
+  <path d="m36 12 58 0" stroke="#f1f8ff" stroke-width=".7"/>
+  <path d="M31 5v14" stroke="#d9b77b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M16 12h13" stroke="#504034" stroke-width="5"/>
+  <path d="M18 10v4m4-4v4m4-4v4" stroke="#c1a175" stroke-width="1"/>
+  <circle cx="14" cy="12" r="3" fill="#c1a175"/>
+</svg>
